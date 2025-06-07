@@ -1,16 +1,6 @@
-export interface Flashcard {
-  category: 'animals' | 'food' | 'verbs';
-  spanish: string;
-  english: string;
-  quiz: {
-    type: 'multiple-choice';
-    options: string[];
-  } | {
-    type: 'fill-in-the-blank';
-  };
-}
+import { Flashcard, Category } from '../types';
 
-export const flashcards: Flashcard[] = [
+const flashcards: Flashcard[] = [
   // Animals
   {
     category: "animals",
@@ -91,4 +81,12 @@ export const flashcards: Flashcard[] = [
       type: "fill-in-the-blank"
     }
   }
-]; 
+];
+
+export const getCategories = (): Category[] => {
+  return [...new Set(flashcards.map(card => card.category))];
+};
+
+export const getFlashcardsByCategory = (category: Category): Flashcard[] => {
+  return flashcards.filter(card => card.category === category);
+}; 

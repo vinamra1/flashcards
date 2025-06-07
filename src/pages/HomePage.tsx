@@ -1,9 +1,10 @@
 import { Link } from 'react-router-dom';
 import styles from './HomePage.module.css';
+import Container from '../components/ui/Container';
 
 function HomePage() {
   return (
-    <div className={styles.container}>
+    <Container>
       <h1>Spanish Flashcards</h1>
       <p>Welcome! Choose an option below to get started.</p>
       <div className={styles.buttonContainer}>
@@ -17,7 +18,7 @@ function HomePage() {
           Stats Page
         </Link>
       </div>
-    </div>
+    </Container>
   );
 }
 

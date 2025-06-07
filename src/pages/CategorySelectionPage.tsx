@@ -1,15 +1,16 @@
 import { Link, useLocation } from 'react-router-dom';
-import { flashcards } from '../data/flashcards';
+import { getCategories } from '../api/flashcardApi';
 import styles from './CategorySelectionPage.module.css';
+import Container from '../components/ui/Container';
 
-const categories = [...new Set(flashcards.map(card => card.category))];
+const categories = getCategories();
 
 function CategorySelectionPage() {
   const location = useLocation();
   const mode = location.pathname.startsWith('/study') ? 'study' : 'quiz';
 
   return (
-    <div className={styles.container}>
+    <Container>
       <h1>Select a Category for {mode === 'study' ? 'Study' : 'Quiz'}</h1>
       <div className={styles.categoryContainer}>
         {categories.map(category => (
@@ -18,7 +19,7 @@ function CategorySelectionPage() {
           </Link>
         ))}
       </div>
-    </div>
+    </Container>
   );
 }
 
