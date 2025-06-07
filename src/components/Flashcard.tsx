@@ -14,7 +14,7 @@ function Flashcard({ card }: FlashcardProps) {
   };
 
   return (
-    <div className={styles.flashcard} onClick={handleFlip}>
+    <div className={styles.flashcard} onClick={handleFlip} data-testid="flashcard">
       <div className={`${styles.cardInner} ${isFlipped ? styles.isFlipped : ''}`}>
         <div className={styles.cardFront}>
           <h2>{card.spanish}</h2>

@@ -111,4 +111,8 @@ dist
 .DS_Store
 
 # VSCode
-.vscode/ 
+.vscode/
+
+# Playwright
+test-results/
+playwright-report/ 
