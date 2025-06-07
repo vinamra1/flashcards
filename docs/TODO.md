@@ -21,15 +21,15 @@
 
 ## 🟢 Phase 2: Flashcard Study Mode (Basic)
 
-- [ ] Create `CategorySelectionPage` to pick a category  
+- [x] Create `CategorySelectionPage` to pick a category  
   ✅ *Acceptance Criteria:* Lists all 3 categories; clicking one proceeds to Study or Quiz based on mode selected.
 
-- [ ] Create `Flashcard` component to show:
-  - [ ] Spanish word (front side)  
+- [x] Create `Flashcard` component to show:
+  - [x] Spanish word (front side)  
     ✅ *Acceptance Criteria:* Spanish word is displayed by default.
-  - [ ] English word (back side)  
+  - [x] English word (back side)  
     ✅ *Acceptance Criteria:* Card flips to show English translation.
-  - [ ] Flip interaction (click-to-flip)  
+  - [x] Flip interaction (click-to-flip)  
     ✅ *Acceptance Criteria:* Card responds to click or tap and visually flips to show other side.
 
 - [ ] Display "✅ Right" and "❌ Wrong" buttons after flipping  
