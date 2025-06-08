@@ -52,6 +52,42 @@ test.describe('Spanish Flashcards App E2E Tests', () => {
     await expect(page.getByRole('heading', { name: 'the cat' })).toBeVisible();
   });
 
+  test('should show feedback buttons after flipping and advance card on click', async ({ page }) => {
+    await page.goto('/study/animals');
+
+    // Flip the card
+    await page.getByTestId('flashcard').click();
+
+    // Check that feedback buttons are visible
+    const correctButton = page.getByTestId('correct-button');
+    const wrongButton = page.getByTestId('wrong-button');
+    await expect(correctButton).toBeVisible();
+    await expect(wrongButton).toBeVisible();
+
+    // Click the "correct" button
+    await correctButton.click();
+
+    // Check that the next card is shown and is not flipped
+    await expect(page.getByRole('heading', { name: 'el perro' })).toBeVisible();
+    await expect(page.getByText('Card 2 of 3')).toBeVisible();
+  });
+
+  test('should show the session complete screen after the last card', async ({ page }) => {
+    await page.goto('/study/animals');
+
+    // Cycle through all cards
+    await page.getByTestId('flashcard').click();
+    await page.getByTestId('correct-button').click(); // Card 1
+    await page.getByTestId('flashcard').click();
+    await page.getByTestId('wrong-button').click();   // Card 2
+    await page.getByTestId('flashcard').click();
+    await page.getByTestId('correct-button').click(); // Card 3
+
+    // Check for session complete screen
+    await expect(page.getByRole('heading', { name: 'Session Complete!' })).toBeVisible();
+    await expect(page.getByText('You got 2 right and 1 wrong.')).toBeVisible();
+  });
+
   test('should navigate to quiz category selection and then to a quiz page', async ({ page }) => {
     // Click on Quiz Mode
     await page.getByRole('link', { name: 'Quiz Mode' }).click();

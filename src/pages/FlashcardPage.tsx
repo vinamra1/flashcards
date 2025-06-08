@@ -1,9 +1,9 @@
 import { useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import { getFlashcardsByCategory } from '../api/flashcardApi';
 import Flashcard from '../components/Flashcard';
 import Container from '../components/ui/Container';
-import { Category } from '../types';
+import { Category, Flashcard as FlashcardType } from '../types';
 
 function FlashcardPage() {
   const { category } = useParams<{ category: Category }>();
@@ -24,6 +24,20 @@ function FlashcardPage() {
 
   const cardsForCategory = getFlashcardsByCategory(category);
   const [currentCardIndex, setCurrentCardIndex] = useState(0);
+  const [wrongAnswers, setWrongAnswers] = useState<FlashcardType[]>([]);
+
+  const handleNextCard = () => {
+    setCurrentCardIndex((prevIndex) => prevIndex + 1);
+  };
+
+  const handleCorrect = () => {
+    handleNextCard();
+  };
+
+  const handleWrong = () => {
+    setWrongAnswers((prev) => [...prev, cardsForCategory[currentCardIndex]]);
+    handleNextCard();
+  };
 
   if (cardsForCategory.length === 0) {
     return (
@@ -34,14 +48,30 @@ function FlashcardPage() {
     );
   }
 
+  // End of session
+  if (currentCardIndex >= cardsForCategory.length) {
+    return (
+      <Container>
+        <h1>Session Complete!</h1>
+        <p>
+          You got {cardsForCategory.length - wrongAnswers.length} right and {wrongAnswers.length} wrong.
+        </p>
+        <Link to="/study">Back to Categories</Link>
+        {/* Later, a "Redo wrong answers" button will go here */}
+      </Container>
+    );
+  }
+
   const currentCard = cardsForCategory[currentCardIndex];
   const capitalizedCategory = category.charAt(0).toUpperCase() + category.slice(1);
 
   return (
     <Container>
       <h1>Studying: {capitalizedCategory}</h1>
-      <Flashcard card={currentCard} />
-      {/* Navigation buttons will go here later */}
+      <p>
+        Card {currentCardIndex + 1} of {cardsForCategory.length}
+      </p>
+      <Flashcard card={currentCard} onCorrect={handleCorrect} onWrong={handleWrong} />
     </Container>
   );
 }
