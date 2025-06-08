@@ -115,4 +115,7 @@ dist
 
 # Playwright
 test-results/
-playwright-report/ 
+playwright-report/
+
+# Cursor
+.cursor/mcp.json 
