@@ -77,19 +77,19 @@
 
 ## 🔴 Phase 5: Statistics Tracking
 
-- [ ] Track number of cards studied per category  
+- [x] Track number of cards studied per category  
   ✅ *Acceptance Criteria:* Every time a card is studied, it is counted and stored in the app's state per category.
 
-- [ ] Track number of correct vs. incorrect responses  
+- [x] Track number of correct vs. incorrect responses  
   ✅ *Acceptance Criteria:* Study and quiz sessions increment the respective counts for correct/wrong answers.
 
-- [ ] Store data in `localStorage` (or memory if persistence isn't needed)  
+- [x] Store data in `localStorage` (or memory if persistence isn't needed)  
   ✅ *Acceptance Criteria:* Stats persist even after browser refresh (if using localStorage); otherwise, reset with refresh.
 
-- [ ] Create `StatsPage` to display:
-  - [ ] Total cards studied  
+- [x] Create `StatsPage` to display:
+  - [x] Total cards studied  
     ✅ *Acceptance Criteria:* Shows a total count of studied cards across all categories.
-  - [ ] Number/percentage correct  
+  - [x] Number/percentage correct  
     ✅ *Acceptance Criteria:* Displays total correct, incorrect, and overall accuracy %.
-  - [ ] Breakdown by category  
+  - [x] Breakdown by category  
     ✅ *Acceptance Criteria:* Stats are grouped and labeled by category (e.g., Animals: 80% correct).

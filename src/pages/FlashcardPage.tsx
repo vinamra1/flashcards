@@ -5,10 +5,12 @@ import Flashcard from '../components/Flashcard';
 import Container from '../components/ui/Container';
 import { Category } from '../types';
 import { useStudySession } from '../context/StudySessionContext';
+import { useStats } from '../context/StatsContext';
 
 function FlashcardPage() {
   const { category } = useParams<{ category: Category }>();
   const { addWrongAnswer } = useStudySession();
+  const { trackStudy } = useStats();
 
   // A simple type guard to ensure the category from the URL is valid
   const isValidCategory = (cat: string | undefined): cat is Category => {
@@ -33,12 +35,14 @@ function FlashcardPage() {
   };
 
   const handleCorrect = () => {
+    trackStudy(category, 'correct');
     handleNextCard();
   };
 
   const handleWrong = () => {
     const wrongCard = cardsForCategory[currentCardIndex];
     addWrongAnswer(wrongCard);
+    trackStudy(category, 'incorrect');
     setSessionWrongAnswers(prev => prev + 1);
     handleNextCard();
   };

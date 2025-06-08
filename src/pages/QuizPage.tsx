@@ -4,9 +4,11 @@ import { getFlashcardsByCategory } from '../api/flashcardApi';
 import Container from '../components/ui/Container';
 import { Category, QuizType } from '../types';
 import styles from './QuizPage.module.css';
+import { useStats } from '../context/StatsContext';
 
 function QuizPage() {
   const { category, quizType } = useParams<{ category: Category; quizType: QuizType }>();
+  const { trackQuiz } = useStats();
   
   const isValidCategory = (cat: string | undefined): cat is Category => !!cat && ['animals', 'food', 'verbs'].includes(cat);
   const isValidQuizType = (type: string | undefined): type is QuizType => !!type && ['multiple-choice', 'fill-in-the-blank'].includes(type);
@@ -39,8 +41,10 @@ function QuizPage() {
     if (isCorrect) {
       setScore(s => s + 1);
       setFeedback('correct');
+      trackQuiz(category, 'correct');
     } else {
       setFeedback('incorrect');
+      trackQuiz(category, 'incorrect');
     }
   };
 
@@ -81,9 +85,9 @@ function QuizPage() {
       <div className={styles.questionContainer}>
         <p className={styles.spanishWord}>{currentCard.spanish}</p>
         
-        {quizType === 'multiple-choice' && (
+        {quizType === 'multiple-choice' && currentCard.quiz.type === 'multiple-choice' && (
           <div className={styles.optionsGrid}>
-            {currentCard.quiz.options.map(option => (
+            {currentCard.quiz.options.map((option: string) => (
               <button 
                 key={option}
                 className={`${styles.optionButton} ${userAnswer === option ? styles.selected : ''}`}
