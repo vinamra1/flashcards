@@ -3,10 +3,12 @@ import { useParams, Link } from 'react-router-dom';
 import { getFlashcardsByCategory } from '../api/flashcardApi';
 import Flashcard from '../components/Flashcard';
 import Container from '../components/ui/Container';
-import { Category, Flashcard as FlashcardType } from '../types';
+import { Category } from '../types';
+import { useStudySession } from '../context/StudySessionContext';
 
 function FlashcardPage() {
   const { category } = useParams<{ category: Category }>();
+  const { addWrongAnswer } = useStudySession();
 
   // A simple type guard to ensure the category from the URL is valid
   const isValidCategory = (cat: string | undefined): cat is Category => {
@@ -24,7 +26,7 @@ function FlashcardPage() {
 
   const cardsForCategory = getFlashcardsByCategory(category);
   const [currentCardIndex, setCurrentCardIndex] = useState(0);
-  const [wrongAnswers, setWrongAnswers] = useState<FlashcardType[]>([]);
+  const [sessionWrongAnswers, setSessionWrongAnswers] = useState<number>(0);
 
   const handleNextCard = () => {
     setCurrentCardIndex((prevIndex) => prevIndex + 1);
@@ -35,7 +37,9 @@ function FlashcardPage() {
   };
 
   const handleWrong = () => {
-    setWrongAnswers((prev) => [...prev, cardsForCategory[currentCardIndex]]);
+    const wrongCard = cardsForCategory[currentCardIndex];
+    addWrongAnswer(wrongCard);
+    setSessionWrongAnswers(prev => prev + 1);
     handleNextCard();
   };
 
@@ -54,10 +58,12 @@ function FlashcardPage() {
       <Container>
         <h1>Session Complete!</h1>
         <p>
-          You got {cardsForCategory.length - wrongAnswers.length} right and {wrongAnswers.length} wrong.
+          You got {cardsForCategory.length - sessionWrongAnswers} right and {sessionWrongAnswers} wrong.
         </p>
-        <Link to="/study">Back to Categories</Link>
-        {/* Later, a "Redo wrong answers" button will go here */}
+        <Link to="/study" className="button-link">Back to Categories</Link>
+        {sessionWrongAnswers > 0 && (
+           <Link to="/study/redo" className="button-link-secondary">Redo Wrong Cards</Link>
+        )}
       </Container>
     );
   }

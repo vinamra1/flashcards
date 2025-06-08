@@ -23,13 +23,17 @@ function Flashcard({ card, onCorrect, onWrong }: FlashcardProps) {
 
   return (
     <div className={styles.flashcardContainer}>
-      <div className={styles.flashcard} onClick={handleFlip} data-testid="flashcard">
-        <div className={`${styles.cardInner} ${isFlipped ? styles.isFlipped : ''}`}>
+      <div
+        className={`${styles.flashcard} ${isFlipped ? styles.flipped : ''}`}
+        onClick={handleFlip}
+        data-testid="flashcard"
+      >
+        <div className={styles.cardInner}>
           <div className={styles.cardFront}>
-            <h2>{card.spanish}</h2>
+            <h2 className="spanish-word">{card.spanish}</h2>
           </div>
           <div className={styles.cardBack}>
-            <h2>{card.english}</h2>
+            <h2 className="english-word">{card.english}</h2>
           </div>
         </div>
       </div>
